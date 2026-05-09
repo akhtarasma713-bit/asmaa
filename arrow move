@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>2D Object Movement</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+            font-family: Arial;
+            flex-direction: column;
+        }
+        canvas {
+            border: 1px solid black;
+            background: white;
+        }
+        p {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h3>2D and 3D graphics and rendering</h3>
+    <h4>Move the designed object in a canvas (key interaction)</h4>
+    
+    <canvas id="gameCanvas" width="550" height="350"></canvas>
+    <p>Use Arrows or W/A/S/D to move</p>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Player Data
+        const player = { x: 275, y: 175, size: 50, color: "red", speed: 5 };
+
+        // 1. Key Press Interaction: Keep track of which keys are held down
+        const keys = {};
+        window.addEventListener("keydown", (e) => keys[e.key] = true);
+        window.addEventListener("keyup", (e) => keys[e.key] = false);
+
+        function update() {
+            // Move Player based on active keys
+            if (keys['ArrowUp'] || keys['w']) player.y -= player.speed;
+            if (keys['ArrowDown'] || keys['s']) player.y += player.speed;
+            if (keys['ArrowLeft'] || keys['a']) player.x -= player.speed;
+            if (keys['ArrowRight'] || keys['d']) player.x += player.speed;
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw the player
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.size, player.size);
+            
+            update();
+            requestAnimationFrame(render);
+        }
+        
+        render();
+    </script>
+</body>
+</html>
